@@ -31,10 +31,10 @@
       "property"
     ],
     "handle-callback-err": "off",
-    "indent": [
-      "error",
-      "tab"
-    ],
+    // "indent": [
+    //   "error",
+    //   "tab"
+    // ],
     "max-nested-callbacks": [
       "error",
       {
