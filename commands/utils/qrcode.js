@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js')
 const validate = require('validate.js')
 
 module.exports = {
@@ -10,9 +11,8 @@ module.exports = {
             message.channel.send(`Please provide an URL in the arguments\nEx:   #qrcode https://example.com`)
         }
 
-        const url = args[0]
-        const size = args[1] || 180
-        const colorHex = args[2] || 000000
+        let url, size, colorHex
+        [url, size, colorHex] = [args[0], args[1] || 180, args[2] || 000000]
         const encodeMethod = '&choe=UTF-8'
 
         const validateResult = validate({ website: url }, {
@@ -26,9 +26,22 @@ module.exports = {
         } else {
             const rootUrl = `https://chart.googleapis.com/chart?cht=qr&chco=${colorHex}&chs=${size}x${size}&chl=`
             const finalUrl = rootUrl + url + encodeMethod
+
+            const qrcodeEmbeded = new MessageEmbed()
+                .setColor(colorHex || 'RANDOM')
+                .setTitle('Your QRcode')
+                .addFields({
+                    name: 'Request by: ',
+                    value: message.author.username
+                }, {
+                    name: 'Original url: ',
+                    value: url
+                })
+                .setImage(finalUrl)
+                .setTimestamp()
+                
             message.reply(`You\'re good to go!\nHere is your QRcode: `)
-            message.reply('\n' + finalUrl)
-            return
+            return message.channel.send(qrcodeEmbeded)
         }
     }
 }
