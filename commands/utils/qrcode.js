@@ -8,7 +8,7 @@ module.exports = {
     execute(message, args) {
         if (message.author.bot) return
         if (!args.length) {
-            message.channel.send(`Please provide an URL in the arguments\nEx:   #qrcode https://example.com`)
+            return message.channel.send(`Please provide an URL in the arguments\nEx:   #qrcode https://example.com`)
         }
 
         let url, size, colorHex
