@@ -8,7 +8,7 @@ module.exports = {
     if (message.author.bot) return
     if (!args.length) {
       data.push('Here\'s a list of all my commands:');
-      data.push(commands.map(command => (command.name)).join(`\n`));
+      data.push(commands.map(command => (`**${command.name}**`)).join(`\n`));
       data.push(`\nYou can send \`${process.env.PREFIX}help [command name]\` to get info on a specific command!`);
 
       return message.channel.send(data, { split: true });
