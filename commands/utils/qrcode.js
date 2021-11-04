@@ -3,7 +3,7 @@ const validate = require('validate.js')
 module.exports = {
     name: 'qrcode',
     description: 'Generates a QRcode for your URL',
-    usage: '<url> <size in px>',
+    usage: '[url, size in px, color in HEX]',
     execute(message, args) {
         if (message.author.bot) return
         if (!args.length) {
@@ -12,6 +12,8 @@ module.exports = {
 
         const url = args[0]
         const size = args[1] || 180
+        const colorHex = args[2] || 000000
+        const encodeMethod = '&choe=UTF-8'
 
         const validateResult = validate({ website: url }, {
             website: {
@@ -22,9 +24,10 @@ module.exports = {
         if (typeof validateResult !== 'undefined') {
             return message.reply('that\'s not a valid URL!');
         } else {
-            const RootUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=`
+            const rootUrl = `https://chart.googleapis.com/chart?cht=qr&chco=${colorHex}&chs=${size}x${size}&chl=`
+            const finalUrl = rootUrl + url + encodeMethod
             message.reply(`You\'re good to go!\nHere is your QRcode: `)
-            message.reply('\n' + RootUrl + url + '&choe=UTF-8')
+            message.reply('\n' + finalUrl)
             return
         }
     }
